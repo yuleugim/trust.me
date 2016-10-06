@@ -1,10 +1,16 @@
 const Discord = require("discord.js");
+const config = require("./config.json");
+const replies = require("./replies.json");
 const bot = new Discord.Client();
-const token = "MjMzMjQ1MjE3NDU1NzM0Nzg1.CtbZ1g.-7wXTC-5dGyYJ7oiSo4JGXtGolQ";
+const token = config["secret"];
 
 bot.on("message", msg => {
-  if (msg.content.startsWith("ping")) {
-    msg.channel.sendMessage("pong!");
+  let prefix = "!";
+  if(!msg.content.startsWith(prefix)) return;
+  if(msg.author.bot) return;
+
+  if (prefix + replies[msg.content]) {
+    msg.channel.sendMessage(replies[msg.content]);
   }
 });
 
